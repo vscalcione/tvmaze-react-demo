@@ -1,27 +1,22 @@
 import React from 'react';
-import css from '../App.module.css'
-import { NoImage } from '../App'
-import { Series } from '../model/series-tv';
+import css from '../../App.module.css'
+import { NoImage } from '../../App'
+import { Series } from '../../model/series-tv';
 
 export interface TVMazeResultsProps {
     result: Series[];
+    itemClick: (series: Series) => void;
 }
 
-const itemClickHandler = (series : Series) => {
-    window.open(series.show.url);
-};
-
-
-export const TVMazeResults: React.FC<TVMazeResultsProps> = (props) => {
+export const TVMazeResults: React.FC<TVMazeResultsProps> = ({ result, itemClick }) => {
     return <>
-        {props.result.length} results
+        {result.length} results
         <div className={css.grid}>
             {
-                props.result.map((series) => {
+                result.map((series) => {
                     const { show: { id, image, name }} = series;
-                    // @ts-ignore
                     return <div key={id} className={css.gridItem}>
-                        <div className={css.movie} onClick={() => itemClickHandler(series)}>
+                        <div className={css.movie} onClick={() => itemClick(series)}>
                         {
                             image ? <img src={image?.medium} alt="" /> :
                             <NoImage></NoImage>
